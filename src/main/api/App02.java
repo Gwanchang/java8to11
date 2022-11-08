@@ -1,6 +1,7 @@
 package main.api;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -70,10 +71,26 @@ public class App02 {
         System.out.println("=============================");
 
         System.out.println("스프링 수업 중에 제목에 spring이 들어간 제목만 모아서 List로 만들기");
-        List<String> spring = springCalsses.stream().filter(oc -> oc.getTitle().contains("spring"))
-                .map(OnlineClass::getTitle)
-                .collect(Collectors.toList());
+        List<String> spring = springCalsses.stream().map(OnlineClass::getTitle)
+                .filter(title -> title.contains("spring"))
+                .toList();
         spring.forEach(System.out::println);
+
+        System.out.println("=============================");
+
+        Optional<OnlineClass> optional = springCalsses.stream().filter(oc -> oc.getTitle().startsWith("spring"))
+                .findFirst();
+
+        //optional.ifPresent(oc -> System.out.println(oc.getTitle()));
+        OnlineClass onlineClass = optional.orElseGet(App02::createNewClass);
+        System.out.println(onlineClass.getTitle());
+
+
+    }
+
+    private static OnlineClass createNewClass() {
+        System.out.println("creating new online class");
+        return new OnlineClass(10, "New class", false);
     }
 
 }

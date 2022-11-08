@@ -2,6 +2,8 @@ package main.api;
 
 import main.java.InterFoo;
 
+import java.util.Optional;
+
 public class OnlineClass {
 
     private Integer id;
@@ -9,6 +11,16 @@ public class OnlineClass {
     private String title;
 
     private boolean closed;
+
+    public Progress progress;
+
+    public Optional<Progress> getProgress() {
+        return Optional.ofNullable(progress);
+    }
+
+    public void setProgress(Progress progress) {
+        this.progress = progress;
+    }
 
     public OnlineClass(Integer id, String title, boolean closed) {
         this.id = id;
